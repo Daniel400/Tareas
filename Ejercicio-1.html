@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Plantilla Base</title>
+    <style>
+      html, body { margin: 0; padding: 0; overflow: hidden; }
+    </style>
+  </head>
+  <body>
+    <script src="js/three.min.js"></script>
+    <script>
+		//Creación de la escena en la que se va a trabajar
+        var scene = new THREE.Scene();
+		//Definición de la relación de aspecto ASPECTO = ANCHO_VENTANA / ALTO_VENTANA
+        var aspect = window.innerWidth / window.innerHeight;
+		//Creacion de una cámara, en perspectiva
+        var camera = new THREE.PerspectiveCamera( 45, aspect, 0.1, 1000);
+		//Creación del elemento para el renderizado de la escena
+        var renderer = new THREE.WebGLRenderer();
+		//Definición del tamaño del elemento de renderizado
+        renderer.setSize( window.innerWidth, window.innerHeight );
+		//Inclusión del elemento de renderizado dentro del canvas de la página web
+        document.body.appendChild( renderer.domElement );
+        
+        var size = 75;
+        var divisions = 75;
+
+        var gridHelper = new THREE.GridHelper( size, divisions );
+        //gridHelper.rotate(45);
+        scene.add( gridHelper );
+        
+        var plane = new THREE.Plane( new THREE.Vector3( 1, 0,0 ) );
+        var plane2 = new THREE.Plane( new THREE.Vector3( 0, 1,0 ) );
+        var plane3 = new THREE.Plane( new THREE.Vector3( 0, 0,1 ) );
+        var helper = new THREE.PlaneHelper( plane, 5, 0xffff00 );
+        var helper2 = new THREE.PlaneHelper( plane2, 5, 0x00ffff );
+        var helper3 = new THREE.PlaneHelper( plane3, 5, 0x50ff50 );
+        scene.add( helper );
+        scene.add( helper2 );
+        scene.add( helper3 );
+        
+        var axesHelper = new THREE.AxesHelper( 100 );
+        scene.add( axesHelper );
+        
+        var dir = new THREE.Vector3( 1, 0, 0 );
+        var dir2 = new THREE.Vector3( 0, 1, 0 );
+        var dir3 = new THREE.Vector3( 0, 0, 1 );
+
+        //normalize the direction vector (convert to vector of length 1)
+        //dir.normalize();
+        
+        var origin = new THREE.Vector3( 0, 0, 0 );
+        var length = 5;
+        var hex = 0xff0000;
+        var hex2 = 0x00ff00;
+        var hex3 = 0x0000ff;
+
+        var arrowHelperx = new THREE.ArrowHelper( dir, origin, length, hex3 );
+        var arrowHelpery = new THREE.ArrowHelper( dir2, origin, length, hex );
+        var arrowHelperz = new THREE.ArrowHelper( dir3, origin, length, hex2 );
+        scene.add( arrowHelperx );
+        scene.add( arrowHelpery );
+        scene.add( arrowHelperz );
+        
+        camera.position.z=10;
+        camera.position.x=10;
+        camera.position.y=10;
+        
+        camera.lookAt(origin);
+        
+        renderer.render(scene,camera);
+    </script>
+  </body>
+</html>
